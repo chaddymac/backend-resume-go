@@ -14,12 +14,12 @@ type mockDynamoDBClient struct {
 func (m *mockDynamoDBClient) GetItem(input *dynamodb.GetItemInput) (*dynamodb.GetItemOutput, error) {
 	// Make response
 	key := dynamodb.AttributeValue{}
-	key.SetS("key")
+	key.SetS("count")
 	val := dynamodb.AttributeValue{}
-	val.SetS("counter")
+	val.SetN("0")
 	resp := make(map[string]*dynamodb.AttributeValue)
 	resp["key"] = &key
-	resp["val"] = &val
+	resp["visitorCount"] = &val
 
 	// Returned canned response
 	output := &dynamodb.GetItemOutput{
@@ -27,6 +27,12 @@ func (m *mockDynamoDBClient) GetItem(input *dynamodb.GetItemInput) (*dynamodb.Ge
 	}
 	return output, nil
 }
+func (m *mockDynamoDBClient) PutItem(input *dynamodb.PutItemInput) (*dynamodb.PutItemOutput, error) {
+	// mock response/functionality
+	finOut := &dynamodb.PutItemOutput{}
+	return finOut,nil
+}
+
 
 // Sample Test Case
 func TestDynamodb(t *testing.T) {

@@ -3,6 +3,7 @@ package main
 // snippet-start:[dynamodb.go.update_item.imports]
 import (
 	"fmt"
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
 	_ "github.com/aws/aws-sdk-go/aws/awserr"
 	_ "github.com/aws/aws-sdk-go/aws/request"
@@ -12,6 +13,8 @@ import (
 	_ "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
 	"strconv"
+	"github.com/aws/aws-lambda-go/events"
+	_ "github.com/aws/aws-lambda-go/lambda"
 )
 
 
@@ -50,8 +53,8 @@ func Counter(svc dynamodbiface.DynamoDBAPI){
 	stCount := strconv.Itoa(count)
 
 	fmt.Println(count)
-
-	//Put new count in the table VisitorCount
+	//
+	////Put new count in the table VisitorCount
 	input := &dynamodb.PutItemInput{
 		Item: map[string]*dynamodb.AttributeValue{
 			"key": {
@@ -62,15 +65,16 @@ func Counter(svc dynamodbiface.DynamoDBAPI){
 		},
 		TableName: aws.String("VisitorCountgo"),
 	}
-	_, err = svc.PutItem(input)
+	resultPut, err := svc.PutItem(input)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
+	fmt.Println("final",resultPut)
+	return stCount
 
-	fmt.Println("final",input)
 }
 
-func main() {
+func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse,error) {
 
 	// SDK will use to load credentials from the shared credentials file
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
@@ -80,6 +84,15 @@ func main() {
 	svc := dynamodb.New(sess)
 
 	Counter(svc)
+	return events.APIGatewayProxyResponse{
+		Body:       st
+		StatusCode: 200,
+	},nil
 }
+
+func main(){
+	lambda.Start(handler)
+}
+
 
 
