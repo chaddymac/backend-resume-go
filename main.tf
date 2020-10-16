@@ -138,5 +138,5 @@ resource "aws_s3_bucket" "portfolioGo" {
 data archive_file lambda_zip {
 type        = "zip"
   source_file = "${path.module}/portfolio.go"
-  output_path = "${path.module}/portfoliogo.zip"
+  output_path = "${path.module}/portfolioGo.zip"
 }
