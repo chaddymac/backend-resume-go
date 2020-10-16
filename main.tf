@@ -20,6 +20,9 @@ resource "aws_lambda_function" "portfolioGo" {
   runtime          = "go1.x"
   memory_size      = 128
   timeout          = 3
+  tags = {
+    "key" = "value"
+  }
 
 }
 
@@ -131,4 +134,9 @@ resource "aws_s3_bucket" "portfolioGo" {
   versioning {
     enabled = true
   }
+}
+data archive_file lambda_zip {
+type        = "zip"
+  source_file = "${path.module}/portfolio.go"
+  output_path = "${path.module}/files/portfoliogo.zip"
 }
