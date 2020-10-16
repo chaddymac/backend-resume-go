@@ -70,6 +70,7 @@ func Counter(svc dynamodbiface.DynamoDBAPI) string {
 		fmt.Println(err.Error())
 	}
 	fmt.Println("final",resultPut)
+	fmt.Println("Hi! You did it")
 	return stCount
 
 }
