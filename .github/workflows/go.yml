@@ -35,7 +35,7 @@ jobs:
       
     - uses: montudor/action-zip@v0.1.0
       with:
-        args: zip -qq -r portfolioGo.zip . -i portfolioGo
+        args: zip -qq -r portfolioGo.zip . -i portfolioGo && ls
       
     - name: Test
       run: go test -v .
@@ -82,5 +82,5 @@ jobs:
         aws-region: us-east-1
       
     - name: Terraform Apply
-      run: terraform apply -auto-approve
+      run: ls && terraform apply -auto-approve
       
