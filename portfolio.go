@@ -3,7 +3,9 @@ package main
 // snippet-start:[dynamodb.go.update_item.imports]
 import (
 	"fmt"
+	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	_ "github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
 	_ "github.com/aws/aws-sdk-go/aws/awserr"
 	_ "github.com/aws/aws-sdk-go/aws/request"
@@ -13,12 +15,10 @@ import (
 	_ "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
 	"strconv"
-	"github.com/aws/aws-lambda-go/events"
-	_ "github.com/aws/aws-lambda-go/lambda"
 )
 
 
-func Counter(svc dynamodbiface.DynamoDBAPI){
+func Counter(svc dynamodbiface.DynamoDBAPI) string {
 	//getting the DynamoDB record based on the key
 	var result, err = svc.GetItem(&dynamodb.GetItemInput{
 		TableName: aws.String("VisitorCountgo"),
@@ -30,7 +30,7 @@ func Counter(svc dynamodbiface.DynamoDBAPI){
 	})
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		return ""
 	}
 	fmt.Println(result)
 	fmt.Printf("%T\n", result)
@@ -41,7 +41,7 @@ func Counter(svc dynamodbiface.DynamoDBAPI){
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		return ""
 	}
 	fmt.Println(count)
 	fmt.Printf("%T\n", count)
@@ -75,7 +75,6 @@ func Counter(svc dynamodbiface.DynamoDBAPI){
 }
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse,error) {
-
 	// SDK will use to load credentials from the shared credentials file
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
@@ -83,10 +82,13 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	//Create DynamoDB client
 	svc := dynamodb.New(sess)
 
-	Counter(svc)
+	y := Counter(svc)
+	headers := map[string]string{"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": " Content-Type","Access-Control-Allow-Methods":"Get"}
+
 	return events.APIGatewayProxyResponse{
-		Body:       st
+		Body:       y,
 		StatusCode: 200,
+		Headers: headers,
 	},nil
 }
 
