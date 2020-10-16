@@ -70,12 +70,7 @@ jobs:
       run: terraform plan -no-color
       continue-on-error: true
       
-    - name: 'Terraform Apply'
-      uses: hashicorp/terraform-github-actions@enhancement/args
-      with:
-        tf_actions_version: 0.12.13
-        tf_actions_subcommand: 'apply'
-        args: 'plan.tfplan'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      run: terraform apply -auto-approve
       
