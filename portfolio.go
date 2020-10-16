@@ -70,6 +70,8 @@ func Counter(svc dynamodbiface.DynamoDBAPI) string {
 		fmt.Println(err.Error())
 	}
 	fmt.Println("final",resultPut)
+	fmt.Println("hiiiiii")
+
 	return stCount
 
 }
@@ -86,7 +88,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	headers := map[string]string{"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": " Content-Type","Access-Control-Allow-Methods":"Get"}
 
 	return events.APIGatewayProxyResponse{
-		Body:       y,
+		Body:       y, 
 		StatusCode: 200,
 		Headers: headers,
 	},nil
