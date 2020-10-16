@@ -33,9 +33,6 @@ jobs:
     - name: Build
       run: go build -v .
       
-    - name: Go Zip
-      run: GOOS=linux GOARCH=amd64 go build -o main portfolio.go zip main.zip main
-      
     - name: Test
       run: go test -v .
       
