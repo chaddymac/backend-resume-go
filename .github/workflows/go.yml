@@ -34,9 +34,9 @@ jobs:
       run: go build -v .
       
       
-    - name: Go Zip
+    - name: Build binary
       run: |
-          cd example && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -o main portfolio.go && zip portfolioGo.zip main
+        cd example && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -o main portfolio.go && zip portfolioGo.zip main
       
     - name: Test
       run: go test -v .
