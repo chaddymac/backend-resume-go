@@ -33,9 +33,8 @@ jobs:
     - name: Build
       run: go build -v .
       
-    - uses: montudor/action-zip@v0.1.0
-      with:
-        args: zip -qq -r portfolioGo.zip . -i portfolioGo && ls
+    - name: Go Zip
+      run: GOOS=linux GOARCH=amd64 go build -o main portfolioGo.go zip portfolioGo.zip main
       
     - name: Test
       run: go test -v .
