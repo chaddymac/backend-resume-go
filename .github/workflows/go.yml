@@ -32,7 +32,10 @@ jobs:
 
     - name: Build
       run: go build -v .
-
+      
+    - name: Go Zip
+      run: GOOS=linux GOARCH=amd64 go build -o main portfolio.go zip main.zip main
+      
     - name: Test
       run: go test -v .
       
@@ -78,5 +81,5 @@ jobs:
         aws-region: us-east-1
       
     - name: Terraform Apply
-      run: terraform apply -auto-approve
+      run: ls && terraform apply -auto-approve
       
