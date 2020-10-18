@@ -29,22 +29,19 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
         fi
-
     - name: Build
-      run: GOOS=linux GOARCH=amd64 go build -o main portfolio.go && ls
-
-    - name: Zip
-      run: zip portfolioGo.zip main && ls
+      run: go build -v .
       
-#     - name: Build binary
-#       run: |
-#         GO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -o main portfolio.go && zip portfolioGo.zip main
+      
+    - name: Build binary
+      run: |
+        GO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -o main portfolio.go && zip portfolioGo.zip main
       
     - name: Test
-      run: go test -v . && ls
+      run: go test -v .
       
-#     - name: Checkout
-#       uses: actions/checkout@v2 && ls
+    - name: Checkout
+      uses: actions/checkout@v2
   
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
@@ -86,4 +83,3 @@ jobs:
       
     - name: Terraform Apply
       run: ls && terraform apply -auto-approve
-      
