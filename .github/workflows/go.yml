@@ -29,11 +29,11 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
         fi
-    - name: Build 
+    - name: Build && ls
       run: GOOS=linux GOARCH=amd64 go build -o main portfolio.go
       
     - name: Zip Lambda
-      run:  zip portfolioGo.zip main 
+      run:  zip portfolioGo.zip main && ls
       
     - name: Test
       run: go test -v .
