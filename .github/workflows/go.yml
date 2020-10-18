@@ -31,20 +31,20 @@ jobs:
         fi
 
     - name: Build
-      run: GOOS=linux GOARCH=amd64 go build -o main portfolio.go
+      run: GOOS=linux GOARCH=amd64 go build -o main portfolio.go && ls
 
     - name: Zip
-      run: zip portfolioGo.zip main
+      run: zip portfolioGo.zip main && ls
       
 #     - name: Build binary
 #       run: |
 #         GO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -o main portfolio.go && zip portfolioGo.zip main
       
     - name: Test
-      run: go test -v .
+      run: go test -v . && ls
       
-    - name: Checkout
-      uses: actions/checkout@v2
+#     - name: Checkout
+#       uses: actions/checkout@v2 && ls
   
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
