@@ -9,8 +9,6 @@ import (
 )
 
 func TestHandler(t *testing.T) {
-	var a = "null"
-
-	assert.Equal(t, a, handler())
+	assert.Equal(t, nil, handler())
 
 }
