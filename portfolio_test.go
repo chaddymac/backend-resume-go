@@ -9,6 +9,7 @@ import (
 )
 
 func TestHandler(t *testing.T) {
-	assert.Equal(t, nil, handler())
+	a := Counter()
+	assert.IsType(t, "x", a)
 
 }
